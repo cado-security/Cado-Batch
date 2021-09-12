@@ -22,8 +22,15 @@ move bins\$LogFile collected_files\LogFile_C.bin
 echo Collecting EVTX files and System Registry
 xcopy %SystemRoot%\System32\Config collected_files\ /E /Y /C /Q
 xcopy %SystemRoot%\system32\winevt\logs\*.evtx collected_files\ /E /Y /C /Q
-bins\RawCopy.exe /FileNamePath:"C:\Documents and Settings\Administrator\NTUSER.DAT"
-move bins\NTUSER.dat collected_files\Admin_NTUSER.DAT
+
+if exist C:\Users\ (
+    for /f "tokens=*" %%G in ('dir /A:D /B "C:\Users\"') do mkdir collected_files\%%G
+    for /f "tokens=*" %%G in ('dir /A:D /B "C:\Users\"') do bins\RawCopy.exe /FileNamePath:"C:\Users\%G\NTUSER.DAT" /OutputPath:"collected_files\%%G\"
+    for /f "tokens=*" %%G in ('dir /A:D /B "C:\Users\"') do bins\RawCopy.exe /FileNamePath:"C:\Users\%%G\AppData\Local\Microsoft\Windows\UsrClass.dat" /OutputPath:"collected_files\%%G\"
+) else (
+    for /f "tokens=*" %%G in ('dir /A:D /B "C:\Documents and Settings\"') do mkdir collected_files\%%G
+    for /f "tokens=*" %%G in ('dir /A:D /B "C:\Documents and Settings\"') do bins\RawCopy.exe /FileNamePath:"C:\Documents and Settings\%%G\NTUSER.DAT" /OutputPath:"collected_files\%%G\"
+    for /f "tokens=*" %%G in ('dir /A:D /B "C:\Documents and Settings\"') do bins\RawCopy.exe /FileNamePath:"C:\Documents and Settings\%%G\Local Settings\Application Data\Microsoft\Windows\UsrClass.dat" /OutputPath:"collected_files\%%G\"
 
 bins\RawCopy.exe /FileNamePath:C:\WINDOWS\system32\config\SYSTEM
 move bins\SYSTEM collected_files\SYSTEM

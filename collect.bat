@@ -39,7 +39,13 @@ if exist C:\Users\ (
 echo Listing Root Directory
 dir c:\ > collected_files\C_Dir.txt
 
+set hour=%time:~0,2%
+set min=%time:~3,2%
+set sec=%time:~6,2%
+
+set time=%hour%%min%%sec%
+
 echo Compressing into collected_files.zip
-bins\zip.exe -r collected_files.zip collected_files
+bins\zip.exe -r CadoBatch_%computername%_%time%.zip collected_files
 
 pause

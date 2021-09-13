@@ -16,7 +16,7 @@ mkdir collected_files
 echo Collecting $MFT and $LogFile
 bins\RawCopy.exe /FileNamePath:C:0
 bins\RawCopy.exe /FileNamePath:c:\$LogFile
-move bins\$MFT collected_files\MFT_C.bin
+move bins\$MFT collected_files\MFT.exported
 move bins\$LogFile collected_files\LogFile_C.bin
 
 echo Collecting EVTX files and System Registry
